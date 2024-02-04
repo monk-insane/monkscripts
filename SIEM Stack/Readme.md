@@ -1,0 +1,1 @@
+A Collection of scripts and config files for setting up your own SIEM stack. Based on https://socfortress.medium.com/build-your-own-siem-stack-with-open-source-tools-series-39da0f2d412a

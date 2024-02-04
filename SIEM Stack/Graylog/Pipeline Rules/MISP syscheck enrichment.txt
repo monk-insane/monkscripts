@@ -1,0 +1,13 @@
+rule "OSSEC SYSCHECK ADDED - MISP THREAT INTEL"
+when
+    $message.rule_group_01 == "ossec" AND $message.rule_group_02 == "syscheck" AND $message.syscheck_event == "added"
+    then
+        let ldata = lookup(
+            lookup_table: "misp",
+            key: to_string($message.syscheck_sha256_after)
+        );
+        set_fields(
+            fields: ldata,
+            prefix: "misp_"
+            );
+    end

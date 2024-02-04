@@ -1,0 +1,13 @@
+rule "GreyNoise Lookup on DestIP"
+when
+    has_field("DestIP")
+then
+    let ldata = lookup(
+        lookup_table: "graynoise",
+        key: to_string($message.DestIP)
+    );
+    set_fields(
+        fields: ldata,
+        prefix: "greynoise_"
+        );
+end

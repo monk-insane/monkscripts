@@ -1,0 +1,15 @@
+rule "LINUX PACKETBEAT LOG NORMALIZATION"
+when
+    $message.rule_group_01 == "linux" AND $message.rule_group_02 == "packetbeat"
+then
+    set_field("hostname", $message.data_host_hostname);
+    set_field("host_os", $message.data_host_os_name);
+    set_field("host_os_version", $message.data_host_os_version);
+    set_field("host_mac_address", $message.data_host_mac);
+    set_field("protocol", $message.data_network_transport);
+    set_field("network_type", $message.data_network_type);
+    set_field("dst_ip", $message.data_destination_ip);
+    set_field("dst_port", $message.data_destination_port);
+    set_field("src_ip", $message.data_source_ip);
+    set_field("src_port", $message.data_source_port);
+end

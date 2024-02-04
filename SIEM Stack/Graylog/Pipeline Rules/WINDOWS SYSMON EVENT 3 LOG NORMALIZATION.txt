@@ -1,0 +1,14 @@
+rule "WINDOWS SYSMON EVENT 3 LOG NORMALIZATION"
+when
+    $message.rule_group_01 == "windows" AND $message.rule_group_03 == "sysmon_event3"
+then
+    set_field("dst_ip", $message.data_win_eventdata_destinationIp);
+    set_field("dst_port", $message.data_win_eventdata_destinationPort);
+    set_field("process", $message.data_win_eventdata_image);
+    set_field("process_id", $message.data_win_eventdata_processId);
+    set_field("protocol", $message.data_win_eventdata_protocol);
+    set_field("src_ip", $message.data_win_eventdata_sourceIp);
+    set_field("src_port", $message.data_win_eventdata_sourcePort);
+    set_field("user", $message.data_win_eventdata_user);
+    set_field("computer", $message.data_win_system_computer);
+end

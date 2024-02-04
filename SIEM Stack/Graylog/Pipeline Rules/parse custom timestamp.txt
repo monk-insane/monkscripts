@@ -1,0 +1,7 @@
+rule "parse custom timestamp"
+when
+  has_field("timestamp")
+then
+  let new_date = parse_date(to_string($message.timestamp), "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+  set_field("timestamp", new_date);
+end

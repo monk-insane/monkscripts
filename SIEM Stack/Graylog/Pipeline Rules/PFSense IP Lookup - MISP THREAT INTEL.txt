@@ -1,0 +1,13 @@
+rule "PFSense IP Lookup - MISP THREAT INTEL"
+when
+    $message.logprocess == "filterlog"
+    then
+        let ldata = lookup(
+            lookup_table: "misp",
+            key: to_string($message.dst_ip)
+        );
+        set_fields(
+            fields: ldata,
+            prefix: "misp_"
+            );
+    end

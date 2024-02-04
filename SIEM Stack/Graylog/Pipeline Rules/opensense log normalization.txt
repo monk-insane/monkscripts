@@ -1,0 +1,10 @@
+rule "Opensense LOG NORMALIZATION"
+when
+    $message.logprocess == "filterlog"
+then
+    set_field("dst_ip", $message.DestIP);
+    set_field("dst_port", $message.DestPort);
+    set_field("protocol", $message.Protocol);
+    set_field("src_ip", $message.SourceIP);
+    set_field("src_port", $message.SourcePort);
+end

@@ -1,0 +1,13 @@
+rule "WAZUH IP Lookup - MISP THREAT INTEL"
+when
+    $message.rule_group_03 == "sysmon_event3"
+    then
+        let ldata = lookup(
+            lookup_table: "misp",
+            key: to_string($message.dst_ip)
+        );
+        set_fields(
+            fields: ldata,
+            prefix: "misp_"
+            );
+    end
