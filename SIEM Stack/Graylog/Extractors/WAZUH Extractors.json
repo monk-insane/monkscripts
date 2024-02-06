@@ -65,21 +65,115 @@
       "condition_value": ""
     },
     {
-      "title": "data_win_eventdata_destinationIp_geolocation_numeric",
-      "extractor_type": "copy_input",
-      "converters": [
-        {
-          "type": "numeric",
-          "config": {}
-        }
-      ],
+      "title": "Windows Detender - Extract Malware Location",
+      "extractor_type": "grok",
+      "converters": [],
       "order": 0,
       "cursor_strategy": "copy",
-      "source_field": "data_win_eventdata_destinationIp_geolocation",
-      "target_field": "data_win_eventdata_destinationIp_geolocation_numeric",
+      "source_field": "data_win_system_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "Path: %{GREEDYDATA:malware_path}"
+      },
+      "condition_type": "string",
+      "condition_value": "Microsoft Defender Antivirus has taken action to protect this machine from malware or other potentially unwanted software."
+    },
+    {
+      "title": "Windows Detender - Extract Malware Action Taken",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_win_system_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "Action: %{GREEDYDATA:malware_action_taken}"
+      },
+      "condition_type": "string",
+      "condition_value": "Microsoft Defender Antivirus has taken action to protect this machine from malware or other potentially unwanted software."
+    },
+    {
+      "title": "Windows Detender - Extract Malware Name",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_win_system_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "Name: %{GREEDYDATA:malware_detected}"
+      },
+      "condition_type": "string",
+      "condition_value": "Microsoft Defender Antivirus has taken action to protect this machine from malware or other potentially unwanted software."
+    },
+    {
+      "title": "Windows Detender - Extract Malware Category",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_win_system_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "Category: %{GREEDYDATA: malware_category}"
+      },
+      "condition_type": "string",
+      "condition_value": "Microsoft Defender Antivirus has taken action to protect this machine from malware or other potentially unwanted software."
+    },
+    {
+      "title": "Yara - Extract Malware Name",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_yara_rule",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{GREEDYDATA:malware_detected}"
+      },
+      "condition_type": "none",
+      "condition_value": ""
+    },
+    {
+      "title": "Yara - Malware Path",
+      "extractor_type": "copy_input",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_yara_scanned_file",
+      "target_field": "malware_path",
       "extractor_config": {},
       "condition_type": "none",
       "condition_value": ""
+    },
+    {
+      "title": "Windows Defender - Extract Malware Action Result ",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_win_system_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "Error description: %{GREEDYDATA:malware_action_taken_result}"
+      },
+      "condition_type": "string",
+      "condition_value": "Microsoft Defender Antivirus has taken action to protect this machine from malware or other potentially unwanted software."
+    },
+    {
+      "title": "Yara - Extract Malware Path",
+      "extractor_type": "split_and_index",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "data_eventdata_commandLine",
+      "target_field": "malware_action_taken",
+      "extractor_config": {
+        "index": 2,
+        "split_by": ":"
+      },
+      "condition_type": "string",
+      "condition_value": "/usr/bin/echo wazuh-yara:"
     }
   ],
   "version": "5.1.10"
