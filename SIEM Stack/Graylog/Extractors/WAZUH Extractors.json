@@ -174,6 +174,26 @@
       },
       "condition_type": "string",
       "condition_value": "/usr/bin/echo wazuh-yara:"
+    },
+    {
+      "title": "Create timestamp_utc field",
+      "extractor_type": "copy_input",
+      "converters": [
+        {
+          "type": "date",
+          "config": {
+            "date_format": "yyyy-MM-dd HH-mm-ss.SSS",
+            "time_zone": "Etc/UTC"
+          }
+        }
+      ],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "timestamp",
+      "target_field": "timestamp_utc",
+      "extractor_config": {},
+      "condition_type": "none",
+      "condition_value": ""
     }
   ],
   "version": "5.1.10"
